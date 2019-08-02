@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Stack Exchange Formatter
-// @namespace    https://greasyfork.org/en/users/211578
-// @version      0.3
+// @name         Stack Overflow reformat for Evernote
+// @namespace    https://greasyfork.org/zh-TW/scripts/388100
+// @version      1.0
 // @description  Format contents on Stack Enchange websites such as stackoverflow.com and askubuntu.com for easy saving to Evernote.
 // @author       twchen
 // @include      https://stackoverflow.com/questions/*
@@ -14,7 +14,7 @@
 
 (function () {
   "use strict";
-  const description = document.querySelector("#question .postcell .post-text");
+  const description = document.querySelector("#question .post-layout");
   const body = document.body;
   let saveDesc = true;
   const answersToSave = [];
@@ -29,7 +29,7 @@
       saveAnsLink.text = 'save this answer';
       saveAnsLink.onclick = event => {
         event.preventDefault();
-        answersToSave.push(text);
+        answersToSave.push(ans);
         saveDesc = false;
         save();
       };
@@ -38,7 +38,7 @@
       saveQALink.text = 'save this Q&A';
       saveQALink.onclick = event => {
         event.preventDefault();
-        answersToSave.push(text);
+        answersToSave.push(ans);
         save();
       };
       menu.append(saveAnsLink, saveQALink);
@@ -97,7 +97,7 @@
       const text = ans.querySelector(".answercell .post-text");
       const checkbox = ans.querySelector(".js-voting-container input[type='checkbox']");
       if (checkbox.checked) {
-        answersToSave.push(text);
+        answersToSave.push(ans);
       }
     });
     if (answersToSave.length == 0) {
@@ -109,6 +109,7 @@
   }
 
   function save() {
+    expandComments();
     removeAllChildren(body);
     const div = document.createElement("div");
     div.style.margin = 'auto';
@@ -120,9 +121,25 @@
         hr.style.marginTop = '4rem';
         div.appendChild(hr);
       }
+      console.log(post);
+      const checkbox = post.querySelector('input[id^=checkbox]');
+      if (checkbox) {
+        checkbox.remove();
+      }
+      const checkboxLabel = post.querySelector('label[for^=checkbox]');
+      if (checkboxLabel) {
+        checkboxLabel.remove();
+      }
       div.appendChild(post);
     });
     body.appendChild(div);
+  }
+
+  function expandComments() {
+    const expandLinks = document.getElementsByClassName('js-show-link comments-link');
+    for (let i = 0; i < expandLinks.length; i++) {
+      expandLinks[i].click();
+    }
   }
 
   function removeAllChildren(el) {

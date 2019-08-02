@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         PTT 圖片重排 for Evernote
-// @namespace    http://tampermonkey.net/
+// @name         PTT reformat for Evernote
+// @namespace    https://greasyfork.org/zh-TW/users/79288
 // @version      1.2
 // @description  原始的 PTT 網頁用 Evernote Web Clipper 擷取，圖片會跑版，此為替換原本的自動開圖區塊
 // @author       jlhg

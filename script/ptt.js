@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT reformat for Evernote
 // @namespace    https://greasyfork.org/zh-TW/users/79288
-// @version      1.3
+// @version      1.4
 // @description  原始的 PTT 網頁用 Evernote Web Clipper 擷取，圖片會跑版，此為替換原本的自動開圖區塊
 // @author       jlhg
 // @match        https://www.ptt.cc/bbs/*/*.html
@@ -11,7 +11,7 @@
 (function() {
   'use strict';
 
-  ['.jpg', '.JPG', '.png', '.PNG', '.jpeg', '.JPEG'].forEach(function(ext) {
+  ['.jpg', '.JPG', '.png', '.PNG', '.jpeg', '.JPEG', '.gif', '.GIF'].forEach(function(ext) {
     let images = document.querySelectorAll('a[href$="' + ext + '"]');
     for (let i = 0; i < images.length; i++) {
       let imageUrl = images[i].href;

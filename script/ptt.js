@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTT reformat for Evernote
 // @namespace    https://greasyfork.org/zh-TW/users/79288
-// @version      1.4
+// @version      1.5
 // @description  原始的 PTT 網頁用 Evernote Web Clipper 擷取，圖片會跑版，此為替換原本的自動開圖區塊
 // @author       jlhg
 // @match        https://www.ptt.cc/bbs/*/*.html
@@ -11,13 +11,15 @@
 (function() {
   'use strict';
 
+  let imageStyle = "max-height:none;max-width:800px";
+
   ['.jpg', '.JPG', '.png', '.PNG', '.jpeg', '.JPEG', '.gif', '.GIF'].forEach(function(ext) {
     let images = document.querySelectorAll('a[href$="' + ext + '"]');
     for (let i = 0; i < images.length; i++) {
       let imageUrl = images[i].href;
       imageUrl = imageUrl.replace('https://i.imgur', 'http://i.imgur');
       imageUrl = imageUrl.replace('https://imgur', 'http://imgur');
-      images[i].innerHTML += '<br><img src="' + imageUrl + '"><br>';
+      images[i].innerHTML += '<br><img src="' + imageUrl + '" style="'+ imageStyle + '"><br>';
       images[i].style.boxShadow = 'none';
     }
   });
@@ -28,7 +30,7 @@
       continue;
     }
 
-    images[i].innerHTML += '<br><img src="' + images[i].href.replace('https://imgur.com/', 'http://i.imgur.com/') + '.jpg"><br>';
+    images[i].innerHTML += '<br><img src="' + images[i].href.replace('https://imgur.com/', 'http://i.imgur.com/') + '.jpg" style="' + imageStyle + '"><br>';
     images[i].style.boxShadow = 'none';
   }
 
